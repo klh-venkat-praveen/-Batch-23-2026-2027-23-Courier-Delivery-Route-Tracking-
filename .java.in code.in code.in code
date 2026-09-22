@@ -1,0 +1,209 @@
+import java.util.Scanner;
+public class CourierTracking {
+
+    // Method 1: Calculate estimated delivery time
+    static double calculateTime(double distance, double speed) {
+        return distance / speed;
+    }
+
+    // Method 2: Method overloading
+    static double calculateTime(double distance, double speed, double extraTime) {
+        return (distance / speed) + extraTime;
+    }
+
+    // Method 3: Determine delivery status using if-else-if
+    static String getDeliveryStatus(double time) {
+        if (time <= 2) {
+            return "Fast Delivery";
+        } else if (time <= 5) {
+            return "Normal Delivery";
+        } else {
+            return "Delayed Delivery";
+        }
+    }
+
+    // Method 4: Calculate delivery charge
+    static double calculateCharge(double distance) {
+        double charge;
+
+        if (distance <= 10) {
+            charge = 50;
+        } else if (distance <= 50) {
+            charge = 50 + (distance - 10) * 5;
+        } else {
+            charge = 50 + (40 * 5) + (distance - 50) * 8;
+        }
+
+        return charge;
+    }
+
+    // Method 5: Recursion - calculate total distance
+    static double recursiveDistance(double[] distances, int index) {
+        // Base case
+        if (index == distances.length) {
+            return 0;
+        }
+
+        // Recursive case
+        return distances[index] + recursiveDistance(distances, index + 1);
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // ---------------- MODULE 1 ----------------
+        System.out.println("======================================");
+        System.out.println("     COURIER DELIVERY ROUTE & TRACKING");
+        System.out.println("======================================");
+
+        // Console Input
+        System.out.print("Enter Courier ID: ");
+        String courierId = sc.nextLine();
+
+        System.out.print("Enter Source: ");
+        String source = sc.nextLine();
+
+        System.out.print("Enter Destination: ");
+        String destination = sc.nextLine();
+
+        System.out.print("Enter Distance (km): ");
+        double distance = sc.nextDouble();
+
+        System.out.print("Enter Average Speed (km/h): ");
+        double speed = sc.nextDouble();
+
+        // Validation
+        if (distance <= 0 || speed <= 0) {
+            System.out.println("Distance and speed must be greater than 0.");
+            sc.close();
+            return;
+        }
+
+        // Arithmetic expression
+        double time = calculateTime(distance, speed);
+
+        // Delivery charge
+        double charge = calculateCharge(distance);
+
+        // ---------------- MODULE 2 ----------------
+
+        String status = getDeliveryStatus(time);
+
+        System.out.println("\n----------- DELIVERY DETAILS -----------");
+
+        // Formatted printing
+        System.out.printf("Courier ID       : %s%n", courierId);
+        System.out.printf("Source            : %s%n", source);
+        System.out.printf("Destination       : %s%n", destination);
+        System.out.printf("Distance          : %.2f km%n", distance);
+        System.out.printf("Average Speed     : %.2f km/h%n", speed);
+        System.out.printf("Estimated Time    : %.2f hours%n", time);
+        System.out.printf("Delivery Charge   : Rs. %.2f%n", charge);
+        System.out.println("Delivery Status   : " + status);
+
+        // Switch statement
+        System.out.print("\nEnter Priority (1-Regular, 2-Express, 3-Same Day): ");
+        int priority = sc.nextInt();
+
+        switch (priority) {
+            case 1:
+                System.out.println("Priority Selected: Regular");
+                break;
+
+            case 2:
+                System.out.println("Priority Selected: Express");
+                break;
+
+            case 3:
+                System.out.println("Priority Selected: Same Day");
+                break;
+
+            default:
+                System.out.println("Invalid priority.");
+        }
+
+        // ---------------- MODULE 3 ----------------
+
+        // 1D Array - store delivery distances
+        double[] deliveryDistances = {10, 25, 15, distance};
+
+        System.out.println("\n----------- DELIVERY ROUTES -----------");
+
+        double totalDistance = 0;
+        int count = 0;
+
+        // Enhanced for-each loop
+        for (double d : deliveryDistances) {
+            System.out.printf("Route Distance: %.2f km%n", d);
+            totalDistance += d;
+            count++;
+        }
+
+        // Average using array
+        double averageDistance = totalDistance / count;
+
+        System.out.printf("Total Distance  : %.2f km%n", totalDistance);
+        System.out.printf("Average Distance: %.2f km%n", averageDistance);
+
+        // Searching in array
+        System.out.print("\nEnter distance to search: ");
+        double searchDistance = sc.nextDouble();
+
+        boolean found = false;
+
+        for (int i = 0; i < deliveryDistances.length; i++) {
+            if (deliveryDistances[i] == searchDistance) {
+                System.out.println("Distance found at route " + (i + 1));
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Distance not found.");
+        }
+
+        // Recursion
+        double recursiveTotal = recursiveDistance(deliveryDistances, 0);
+
+        System.out.printf(
+            "\nTotal Distance using Recursion: %.2f km%n",
+            recursiveTotal
+        );
+
+        // 2D Array - delivery matrix
+        int[][] routeMatrix = {
+            {1, 2},
+            {3, 4}
+        };
+
+        System.out.println("\n----------- ROUTE MATRIX -----------");
+
+        for (int i = 0; i < routeMatrix.length; i++) {
+            for (int j = 0; j < routeMatrix[i].length; j++) {
+                System.out.print(routeMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        // Bitwise operator example
+        int routeCode = 5;
+        int mask = 1;
+
+        int result = routeCode & mask;
+
+        System.out.println("\nBitwise AND Result: " + result);
+
+        // Ternary operator
+        String deliveryType = distance > 50 ? "Long Distance" : "Short Distance";
+
+        System.out.println("Delivery Type: " + deliveryType);
+
+        System.out.println("\n======================================");
+        System.out.println("       TRACKING COMPLETED");
+        System.out.println("======================================");
+
+        sc.close();
+    }
+}
